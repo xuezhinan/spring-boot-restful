@@ -27,13 +27,14 @@ public class MyMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("index.html").setViewName("index");
         registry.addViewController("main.html").setViewName("dashboard");
+        registry.addViewController("login").setViewName("index");
     }
 
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptors()).addPathPatterns("/**")
-                .excludePathPatterns("/","/index.html","/login","/webjars/**","/asserts/**");
+                .excludePathPatterns("/login","/","/index.html","/dologin","/webjars/**","/asserts/**","/druid/**");
         //剔除掉css和js文件的请求，不然也会被拦截器拦截掉，没有样式。
     }
 

@@ -18,12 +18,12 @@ public class LoginController {
 
 
     @RequestMapping("/")
-    public String index(){
+    public String index(HttpServletRequest request){
         return "index";
     }
     @ResponseBody
     @RequestMapping("/hello")
-    public String hello(){
+    public String hello(HttpServletRequest request){
         return "hello word";
     }
 
@@ -41,7 +41,7 @@ public class LoginController {
         return "test/success";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/dologin")
     public String doLogin(@RequestParam("userName") String userName,
                           @RequestParam("password") String password,
                           ModelMap modelMap, HttpSession httpSession){

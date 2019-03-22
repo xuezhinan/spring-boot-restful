@@ -15,7 +15,7 @@
 	<body class="text-center">
 
 		<!--#{}表达式用来获取国际化信息-->
-		<form class="form-signin" method="post" action="/login" th:action="@{/login}">
+		<form class="form-signin" method="post" action="/dologin" th:action="@{/dologin}">
 			<img class="mb-4" th:src="@{/asserts/img/bootstrap-solid.svg}" alt="" width="72" height="72">
 			<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.tip}">Please sign in</h1>
 			<p th:text="${errmsg}" style="color: red;" th:if="${not #strings.isEmpty(errmsg)}"></p>
