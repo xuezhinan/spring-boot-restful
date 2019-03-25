@@ -22,6 +22,9 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    host: 127.0.0.1
 mybatis:
   configuration:
     map-underscore-to-camel-case: true  # 开启驼峰命名匹配规则，使数据库和javabean的字段自动匹配
+debug: true
