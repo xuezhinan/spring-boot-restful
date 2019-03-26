@@ -2,6 +2,7 @@ package com.asiainfo.springbootrestful.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.asiainfo.springbootrestful.entities.UserRole;
 import com.asiainfo.springbootrestful.service.QryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,13 @@ public class QryController {
     @Autowired
     QryService qryService;
 
-   /* @ResponseBody
+    @ResponseBody
     @RequestMapping("/get")
     public String getUser(HttpServletRequest request){
-        List<Map<String, Object>> list = qryService.getList();
-        logger.info(JSON.toJSONString(list));
-        return JSON.toJSONString(list);
-    }*/
+        UserRole role = qryService.getRoleById(2);
+        logger.info(JSON.toJSONString(role));
+        return JSON.toJSONString(role);
+    }
 
     @ResponseBody
     @RequestMapping("/getRole")

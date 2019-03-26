@@ -63,7 +63,7 @@ public class SpringBootRestfulApplicationTests {
 
     @Test
     public void redisTest(){
-        List<Map<String, Object>> role = qryService.getRoleById(2);
+        UserRole role = qryService.getRoleById(2);
         //stringRedisTemplate.opsForValue().append("name","zhangsan");
         //myRedisTemplate.opsForValue().set("obj-3", role);
         UserRole userRole = new UserRole();

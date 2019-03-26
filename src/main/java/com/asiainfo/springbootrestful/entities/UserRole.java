@@ -1,10 +1,12 @@
 package com.asiainfo.springbootrestful.entities;
 
 
+
+import java.io.Serializable;
 import java.util.Date;
 
 //创建bean，与数据库中的表做映射
-public class UserRole {
+public class UserRole implements Serializable {
     public int id;
     public String roleName;
     public String roleCode;

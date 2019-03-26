@@ -6,9 +6,7 @@ import com.asiainfo.springbootrestful.filter.EncodingFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,7 +28,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("login").setViewName("index");
     }
 
-    //添加拦截器
+    //添加拦截器,相当于在web.xml文件中配置，拦截器是springMVC所具有的功能，所以应该在mvc的配置文件中注册
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptors()).addPathPatterns("/**")

@@ -83,18 +83,19 @@ public class QryService {
 *              unless = "#a0==2":如果第一个参数的值是2，结果不缓存；
 *      sync：是否使用异步模式
 */
-    @Cacheable(cacheNames = {"role"},unless = "#result == null ",key = "2")
+    @Cacheable(cacheNames = {"role"},unless = "#result == null ")
     public List<Map<String, Object>> getRole(){
         List<Map<String, Object>> roleList = userRoleMapper.getUserRole();
         System.out.println("------------>"+"进入getRole的的service");
         return roleList;
     }
 
-    public List<Map<String, Object>> getRoleById(Integer id){
-        List<Map<String, Object>> roleList = userRoleMapper.getRoleById(id);
+    @Cacheable(cacheNames = {"roleID"})
+    public UserRole getRoleById(Integer id){
+        UserRole role = userRoleMapper.getRoleById(id);
 
-        System.out.println(roleList);
-        return roleList;
+        System.out.println(role);
+        return role;
     }
 
 

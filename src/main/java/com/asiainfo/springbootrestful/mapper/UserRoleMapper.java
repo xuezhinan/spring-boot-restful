@@ -18,7 +18,7 @@ public interface UserRoleMapper {
     public List<Map<String,Object>> getUserRole();
 
     @Select("select * from smbms_role where id = #{id}")
-    public List<Map<String,Object>> getRoleById(Integer id);
+    public UserRole getRoleById(Integer id);
 
     @Insert("insert into smbms_role(roleCode,roleName,createdBy,creationDate) values(#{roleCode},#{roleName},#{createdBy},#{creationDate})")
     public int insert(UserRole userRole);
