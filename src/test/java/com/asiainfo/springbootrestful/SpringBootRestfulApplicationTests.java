@@ -7,6 +7,7 @@ import com.asiainfo.springbootrestful.proxytest.MyInvocationHandler;
 import com.asiainfo.springbootrestful.proxytest.UserService;
 import com.asiainfo.springbootrestful.proxytest.UserServiceImpl;
 import com.asiainfo.springbootrestful.service.QryService;
+import com.asiainfo.springbootrestful.utils.ClassUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import javax.annotation.security.RunAs;
 import java.lang.reflect.Proxy;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -72,5 +74,12 @@ public class SpringBootRestfulApplicationTests {
         /*UserRole obj = (UserRole) myRedisTemplate.opsForValue().get("obj-4");
         System.out.println(obj.getId());*/
         myRedisTemplate.opsForValue().set("obj-4",userRole);
+    }
+
+    @Test
+    public void classTest(){
+        String packName = "com.asiainfo.springbootrestful.controller";
+        Set<Class<?>> set = ClassUtil.getClasses(packName);
+        System.err.println(set);
     }
 }
