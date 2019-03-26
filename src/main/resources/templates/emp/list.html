@@ -111,9 +111,9 @@
                     dataType:"json",
                     data : JSON.stringify(json),
                     contentType: 'application/json',
-                    url:"/crud/test",
+                    url:"/getRole",
                     success : function (res) {
-                        alert(res.age);
+                        alert(res);
                         console.log(res);
                     },
                     fail : function(){

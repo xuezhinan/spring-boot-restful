@@ -3,6 +3,8 @@ package com.asiainfo.springbootrestful.config;
 import com.asiainfo.springbootrestful.component.LoginInterceptors;
 import com.asiainfo.springbootrestful.component.MyLoacalResolver;
 import com.asiainfo.springbootrestful.filter.EncodingFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@EnableWebMvc 这个注解表示全面接管MVC的配置，有此注解springboot的默认mvc配置等等就不会生效
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
-
+    Logger log = LoggerFactory.getLogger(getClass());
     //添加默认映射
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -40,7 +42,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Bean
     //注意这里的方法名称必须是localeResolver，方法的返回类型是注入的bean的类型，方法名是bean的id
     public LocaleResolver localeResolver(){
-        System.out.println("--------------------》添加了组件MyLoacalResolver");
+        log.info("添加了组件MyLoacalResolver");
         return new MyLoacalResolver();
     }
 
