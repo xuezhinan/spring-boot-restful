@@ -3,6 +3,7 @@ package com.asiainfo.springbootrestful.config;
 import com.asiainfo.springbootrestful.entities.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -12,8 +13,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 
+import java.lang.reflect.Method;
 import java.net.UnknownHostException;
 import java.time.Duration;
+import java.util.Arrays;
 
 @Configuration
 public class MyRedisConfig {
@@ -50,6 +53,16 @@ public class MyRedisConfig {
 
     private RedisSerializer<Object> valueSerializer() {
         return new GenericJackson2JsonRedisSerializer();
+    }
+    //缓存key的生成策略
+    @Bean("myKeyGenerator")
+    public KeyGenerator keyGenerator(){
+        return new KeyGenerator(){
+            @Override
+            public Object generate(Object target, Method method, Object... params) {
+                return method.getName()+"["+ Arrays.asList(params).toString()+"]";
+            }
+        };
     }
 
 }

@@ -2,7 +2,10 @@ package com.asiainfo.springbootrestful.service;
 
 import com.asiainfo.springbootrestful.entities.UserRole;
 import com.asiainfo.springbootrestful.mapper.UserRoleMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +15,12 @@ import java.util.Map;
 @Service
 public class QryService {
 
+    Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     UserRoleMapper userRoleMapper;
     /**
 * 将方法的运行结果进行缓存；以后再要相同的数据，直接从缓存中获取，不用调用方法；
 * CacheManager管理多个Cache组件的，对缓存的真正CRUD操作在Cache组件中，每一个缓存组件有自己唯一一个名字；
-*
-
 *
 * 原理：
 *   1、自动配置类；CacheAutoConfiguration
@@ -82,27 +84,61 @@ public class QryService {
 *              unless = "#a0==2":如果第一个参数的值是2，结果不缓存；
 *      sync：是否使用异步模式
 */
-    @Cacheable(cacheNames = {"role"},unless = "#result == null ")
+    @Cacheable(cacheNames = {"role"},unless = "#result == null ",keyGenerator = "myKeyGenerator")
     public List<Map<String, Object>> getRole(){
         List<Map<String, Object>> roleList = userRoleMapper.getUserRole();
-        System.out.println("------------>"+"进入getRole的的service");
+        log.info("------------>"+"进入getRole的的service");
         return roleList;
     }
 
-    @Cacheable(cacheNames = {"roleID"})
+    @Cacheable(cacheNames = {"roleID"},keyGenerator = "myKeyGenerator")
     public UserRole getRoleById(Integer id){
         UserRole role = userRoleMapper.getRoleById(id);
 
-        System.out.println(role);
+        log.info("service查询结果是："+role);
         return role;
     }
 
-
+    /**
+     * @CachePut：既调用方法，又更新缓存数据；同步更新缓存
+     * 修改了数据库的某个数据，同时更新缓存；
+     * 运行时机：
+     *  1、先调用目标方法
+     *  2、将目标方法的结果缓存起来
+     *
+     * 测试步骤：
+     *  1、查询1号员工；查到的结果会放在缓存中；
+     *          key：1  value：lastName：张三
+     *  2、以后查询还是之前的结果
+     *  3、更新1号员工；【lastName:zhangsan；gender:0】
+     *          将方法的返回值也放进缓存了；
+     *          key：传入的employee对象  值：返回的employee对象；
+     *  4、查询1号员工？
+     *      应该是更新后的员工；
+     *          key = "#employee.id":使用传入的参数的员工id；
+     *          key = "#result.id"：使用返回后的id
+     *             @Cacheable的key是不能用#result
+     *      为什么是没更新前的？【1号员工没有在缓存中更新】
+     *
+     */
+    @CachePut(cacheNames = {"update"},keyGenerator = "myKeyGenerator")
     public int insert(UserRole userRole){
         int num = userRoleMapper.insert(userRole);
         return num;
     }
 
+    /**
+     * @CacheEvict：缓存清除
+     *  key：指定要清除的数据
+     *  allEntries = true：指定清除这个缓存中所有的数据
+     *  beforeInvocation = false：缓存的清除是否在方法之前执行
+     *      默认代表缓存清除操作是在方法执行之后执行;如果出现异常缓存就不会清除
+     *
+     *  beforeInvocation = true：
+     *      代表清除缓存操作是在方法运行之前执行，无论方法是否出现异常，缓存都清除
+     *
+     *
+     */
     public List<Map<String,Object>> joinget(){
         List<Map<String, Object>> mapList = userRoleMapper.joinSelect();
         return mapList;
