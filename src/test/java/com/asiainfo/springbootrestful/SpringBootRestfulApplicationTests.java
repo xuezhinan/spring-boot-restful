@@ -17,7 +17,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.security.RunAs;
+import java.io.IOException;
 import java.lang.reflect.Proxy;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +42,9 @@ public class SpringBootRestfulApplicationTests {
 
     @Autowired
     RedisTemplate myRedisTemplate;
+
+   /* @Autowired
+    JestClient jestClient;*/
 
     @Test
     public void contextLoads() {
@@ -82,4 +87,26 @@ public class SpringBootRestfulApplicationTests {
         Set<Class<?>> set = ClassUtil.getClasses(packName);
         System.err.println(set);
     }
+
+
+   /* @Test
+    public void search(){
+        UserRole userRole = new UserRole();
+
+        userRole.setId(1);
+        userRole.setRoleName("ceshi");
+        userRole.setCreatedBy("我");
+        userRole.setRoleCode("测试");
+        userRole.setCreationDate(new Date());
+        userRole.setModifyDate(new Date());
+        userRole.setModifyBy("zhangsan");
+
+        Index index = new Index.Builder(userRole).index("asiainfo").type("userRole").build();
+
+        try {
+            jestClient.execute(index);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

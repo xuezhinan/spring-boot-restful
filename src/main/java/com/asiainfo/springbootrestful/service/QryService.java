@@ -2,6 +2,8 @@ package com.asiainfo.springbootrestful.service;
 
 import com.asiainfo.springbootrestful.entities.UserRole;
 import com.asiainfo.springbootrestful.mapper.UserRoleMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +88,11 @@ public class QryService {
 */
     @Cacheable(cacheNames = {"role"},unless = "#result == null ",keyGenerator = "myKeyGenerator")
     public List<Map<String, Object>> getRole(){
+        PageHelper.startPage(1,3);
         List<Map<String, Object>> roleList = userRoleMapper.getUserRole();
-        log.info("------------>"+"进入getRole的的service");
+        PageInfo pageInfo = new PageInfo(roleList);
+        long total = pageInfo.getTotal();
+        log.info("------------>"+"进入getRole的的service,总条数是："+total);
         return roleList;
     }
 
@@ -140,6 +145,7 @@ public class QryService {
      *
      */
     public List<Map<String,Object>> joinget(){
+        PageHelper.startPage(2,3);
         List<Map<String, Object>> mapList = userRoleMapper.joinSelect();
         return mapList;
     }

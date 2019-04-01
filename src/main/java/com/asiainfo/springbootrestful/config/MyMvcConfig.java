@@ -3,6 +3,9 @@ package com.asiainfo.springbootrestful.config;
 import com.asiainfo.springbootrestful.component.LoginInterceptors;
 import com.asiainfo.springbootrestful.component.MyLoacalResolver;
 import com.asiainfo.springbootrestful.filter.EncodingFilter;
+import com.github.pagehelper.PageHelper;
+import org.apache.ibatis.plugin.Interceptor;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -12,6 +15,8 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Properties;
 
 /***
  *
@@ -56,5 +61,22 @@ public class MyMvcConfig implements WebMvcConfigurer {
         //如果有多个过滤器，用来设置过滤器的调用顺序，也可以在过滤器类上配置注解@Order,
         filterRegistrationBean.setOrder(1);
         return filterRegistrationBean;
+    }
+
+    @Bean
+    PageHelper pageHelper(){
+        //分页插件,如果引入<groupId>com.github.pagehelper</groupId>
+        //            <artifactId>pagehelper</artifactId>依赖 需要注入如下配置
+        PageHelper pageHelper = new PageHelper();
+        Properties properties = new Properties();
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("supportMethodsArguments", "true");
+        properties.setProperty("returnPageInfo", "check");
+        properties.setProperty("params", "count=countSql");
+        pageHelper.setProperties(properties);
+
+        //添加插件
+        new SqlSessionFactoryBean().setPlugins(new Interceptor[]{pageHelper});
+        return pageHelper;
     }
 }

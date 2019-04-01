@@ -40,6 +40,8 @@ import java.util.Locale;
 public class SpringBootRestfulApplication {
 
     public static void main(String[] args) {
+        // springboot整合redis和elasticsearch需要作如下处理才能正常启动
+        System.setProperty("es.set.netty.runtime.available.processors","false");
         SpringApplication.run(SpringBootRestfulApplication.class, args);
     }
 

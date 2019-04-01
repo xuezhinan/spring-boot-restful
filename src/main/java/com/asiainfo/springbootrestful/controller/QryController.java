@@ -61,7 +61,7 @@ public class QryController {
         //获取某个缓存,从缓存中直接获取数据
         Cache cache = cacheManager.getCache("role");
         cache.put("role-1","角色1");
-        Cache.ValueWrapper valueWrapper = cache.get("getRole[[]]");
+        Cache.ValueWrapper valueWrapper = cache.get("role-1");
         logger.warn("------------->"+JSON.toJSONString(valueWrapper.get()));
         return JSON.toJSONString(list);
     }
