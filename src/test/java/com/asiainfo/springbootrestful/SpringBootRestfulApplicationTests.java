@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.security.RunAs;
 import java.io.IOException;
@@ -30,6 +31,9 @@ import java.util.concurrent.Executors;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBootRestfulApplicationTests {
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -88,6 +92,9 @@ public class SpringBootRestfulApplicationTests {
         System.err.println(set);
     }
 
+    @Test
+    public void sendhttp(){
+    }
 
    /* @Test
     public void search(){
