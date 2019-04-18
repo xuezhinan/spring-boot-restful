@@ -1,5 +1,6 @@
 package com.asiainfo.springbootrestful.service;
 
+import com.alibaba.fastjson.JSON;
 import com.asiainfo.springbootrestful.entities.UserRole;
 import com.asiainfo.springbootrestful.mapper.UserRoleMapper;
 import com.github.pagehelper.PageHelper;
@@ -11,12 +12,16 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 @Service
 public class QryService {
 
+    //创建线程池
+    private static ExecutorService executorService = Executors.newFixedThreadPool(5);
     Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     UserRoleMapper userRoleMapper;
@@ -148,5 +153,40 @@ public class QryService {
         PageHelper.startPage(2,3);
         List<Map<String, Object>> mapList = userRoleMapper.joinSelect();
         return mapList;
+    }
+
+    public String testAsync() throws ExecutionException, InterruptedException, TimeoutException {
+        log.info("service开始："+System.currentTimeMillis());
+        Callable<String> rep1 = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                //模拟调用远程接口耗时
+                Thread.sleep(1500);
+                return "接口一返回的数据";
+            }
+        };
+        Callable<String> rep2 = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                //模拟调用远程接口耗时
+                Thread.sleep(1500);
+                return "接口二返回的数据";
+            }
+        };
+
+        FutureTask<String> rep_1_finall = new FutureTask<>(rep1);
+        FutureTask<String> rep_2_finall = new FutureTask<>(rep2);
+        //启动线程处理任务,此处可以用线程池优化
+        /*new Thread(rep_1_finall).start();
+        new Thread(rep_2_finall).start();*/
+        executorService.submit(rep_1_finall);
+        executorService.submit(rep_2_finall);
+        Map<String , Object> result = new HashMap<String, Object>();
+        result.put("res1",rep_1_finall.get());
+        //设置超时时间
+        //result.put("res2",rep_2_finall.get(3000,TimeUnit.MILLISECONDS));
+        result.put("res2",rep_2_finall.get());
+        log.info("service结束："+System.currentTimeMillis());
+        return JSON.toJSONString(result);
     }
 }

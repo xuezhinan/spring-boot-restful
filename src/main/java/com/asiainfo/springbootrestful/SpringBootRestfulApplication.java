@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
@@ -37,6 +38,7 @@ import java.util.Locale;
  *      4）、自定义CacheManager；
  *
  */
+@EnableTransactionManagement  //开启事务控制注解
 @SpringBootApplication
 @EnableAsync  //开启异步线程注解
 @EnableScheduling  // 开启定时任务注解

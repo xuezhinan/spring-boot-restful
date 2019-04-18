@@ -38,6 +38,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!--引入security模块 ，类似于shiro的安全框架-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <!-- 解决标签强校验问题 -->
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
@@ -122,11 +127,11 @@
         </dependency>-->
 
         <!-- 引入ElasticSearch-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
-
+-->
     </dependencies>
 
     <build>

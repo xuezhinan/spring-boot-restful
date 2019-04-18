@@ -51,8 +51,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
         return new MyLoacalResolver();
     }
 
-    //添加过滤器，相当于在web.xml文件中配置filter
-    @Bean
+    //添加过滤器，相当于在web.xml文件中配置filter,如果不在这里配置FilterRegistrationBean需要在过滤器上添加注解@Component
+    //@Bean
     public FilterRegistrationBean registFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new EncodingFilter());

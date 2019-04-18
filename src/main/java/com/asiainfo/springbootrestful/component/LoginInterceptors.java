@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //拦截器要实现HandlerInterceptor接口
+
 public class LoginInterceptors implements HandlerInterceptor {
 
     Logger log = LoggerFactory.getLogger(getClass());

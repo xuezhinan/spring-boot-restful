@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 @Controller
 public class QryController {
@@ -29,10 +32,22 @@ public class QryController {
 
     @ResponseBody
     @RequestMapping("/get")
-    public String getUser(HttpServletRequest request){
-        UserRole role = qryService.getRoleById(2);
-        logger.info(JSON.toJSONString(role));
-        return JSON.toJSONString(role);
+    public Callable<String> getUser(HttpServletRequest request){
+        //使用异步处理，这是tomcat主线程，可以把任务交给子线程去处理
+        logger.info("tomcat主线程开始："+Thread.currentThread()+"---------"+System.currentTimeMillis());
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                logger.info("子主线程开始："+Thread.currentThread()+"---------"+System.currentTimeMillis());
+                UserRole role = qryService.getRoleById(2);
+                logger.info(JSON.toJSONString(role));
+                logger.info("子主线程开始："+Thread.currentThread()+"---------"+System.currentTimeMillis());
+                return JSON.toJSONString(role);
+            }
+        };
+        logger.info("tomcat主线程结束："+Thread.currentThread()+"---------"+System.currentTimeMillis());
+        return callable;
+
     }
 
     @ResponseBody
@@ -64,6 +79,15 @@ public class QryController {
         Cache.ValueWrapper valueWrapper = cache.get("role-1");
         logger.warn("------------->"+JSON.toJSONString(valueWrapper.get()));
         return JSON.toJSONString(list);
+    }
+
+    @ResponseBody
+    @RequestMapping("/testAsync")
+    public String testAsync(HttpServletRequest request) throws ExecutionException, InterruptedException, TimeoutException {
+
+        String async = qryService.testAsync();
+
+        return async;
     }
 
 }
