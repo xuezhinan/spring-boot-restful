@@ -30,7 +30,7 @@ public class MyDruidConfig {
     }
 
     //自己配置数据源并输入配置文件的属性值
-    @Bean
+    //@Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource druid(){
 

@@ -61,9 +61,9 @@ public class QryController {
     @ResponseBody
     @RequestMapping("/insert")
     public UserRole insert(UserRole userRole){
-        userRole.setRoleCode("bianma");
-        userRole.setRoleName("zhangdsagn");
-        userRole.setCreatedBy("1");
+        userRole.setRoleCode("ceshi");
+        userRole.setRoleName("读写分离");
+        userRole.setCreatedBy("2");
         int i = qryService.insert(userRole);
         return userRole;
     }

@@ -22,6 +22,14 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  datasourceslave:
+    password: 123
+    username: root
+    #在连接数据可的连接中加入serverTimezone=GMT 时区设置，因为mysql的默认时区是美国
+    url: jdbc:mysql://127.0.0.1:3306/smbms2?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
   redis:
     host: 127.0.0.1
 mybatis:

@@ -1,6 +1,8 @@
 package com.asiainfo.springbootrestful.service;
 
 import com.alibaba.fastjson.JSON;
+import com.asiainfo.springbootrestful.dataSourcePeiZhi.DataSources;
+import com.asiainfo.springbootrestful.dataSourcePeiZhi.RoutingDataSource;
 import com.asiainfo.springbootrestful.entities.UserRole;
 import com.asiainfo.springbootrestful.mapper.UserRoleMapper;
 import com.github.pagehelper.PageHelper;
@@ -91,9 +93,10 @@ public class QryService {
 *              unless = "#a0==2":如果第一个参数的值是2，结果不缓存；
 *      sync：是否使用异步模式
 */
-    @Cacheable(cacheNames = {"role"},unless = "#result == null ",keyGenerator = "myKeyGenerator")
+    //@Cacheable(cacheNames = {"role"},unless = "#result == null ",keyGenerator = "myKeyGenerator")
+    @RoutingDataSource(value = DataSources.SLAVE_DB)
     public List<Map<String, Object>> getRole(){
-        PageHelper.startPage(1,3);
+        PageHelper.startPage(1,20);
         List<Map<String, Object>> roleList = userRoleMapper.getUserRole();
         PageInfo pageInfo = new PageInfo(roleList);
         long total = pageInfo.getTotal();
@@ -131,7 +134,8 @@ public class QryService {
      *      为什么是没更新前的？【1号员工没有在缓存中更新】
      *
      */
-    @CachePut(cacheNames = {"update"},keyGenerator = "myKeyGenerator")
+    //@CachePut(cacheNames = {"update"},keyGenerator = "myKeyGenerator")
+    @RoutingDataSource(value = DataSources.MASTER_DB)
     public int insert(UserRole userRole){
         int num = userRoleMapper.insert(userRole);
         return num;

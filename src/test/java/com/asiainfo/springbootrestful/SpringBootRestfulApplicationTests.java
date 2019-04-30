@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,9 +33,10 @@ import java.util.concurrent.Executors;
 @SpringBootTest
 public class SpringBootRestfulApplicationTests {
 
+    //发送http请求的客户端
     @Autowired
     RestTemplate restTemplate;
-
+    //操作redis的客户端
     @Autowired
     RedisTemplate redisTemplate;
 
@@ -96,6 +98,16 @@ public class SpringBootRestfulApplicationTests {
     public void sendhttp(){
     }
 
+    @Autowired
+    Environment environment;
+
+    @Test
+    public void redis(){
+
+        String property = environment.getProperty("spring.messages.basename", "不知道");
+
+        System.out.println("环境变量"+property);
+    }
    /* @Test
     public void search(){
         UserRole userRole = new UserRole();
