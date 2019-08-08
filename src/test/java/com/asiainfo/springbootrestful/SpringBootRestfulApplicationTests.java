@@ -69,7 +69,7 @@ public class SpringBootRestfulApplicationTests {
                 target.getClass().getInterfaces(),invocationHandler);
 
         proxyObject.add("张三");
-
+        redisTemplate.opsForValue();
     }
 
     @Test

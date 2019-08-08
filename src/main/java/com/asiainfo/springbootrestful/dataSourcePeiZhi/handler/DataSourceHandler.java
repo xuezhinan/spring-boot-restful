@@ -20,7 +20,7 @@ public class DataSourceHandler {
      * 设置数据源
      */
     public static void setDB(String dbType){
-
+        System.out.println(contextHolder.get());
         System.out.println("切换到"+dbType+"数据源");
         contextHolder.set(dbType);
     }

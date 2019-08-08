@@ -1,5 +1,9 @@
 package com.asiainfo.springbootrestful.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
+@Api(description = "登录接口")
 @Controller
 public class LoginController {
 
@@ -41,6 +46,10 @@ public class LoginController {
         return "test/success";
     }
 
+    @ApiOperation(value = "处理登录",notes = "denglu")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String")})
     @PostMapping("/dologin")
     public String doLogin(@RequestParam("userName") String userName,
                           @RequestParam("password") String password,

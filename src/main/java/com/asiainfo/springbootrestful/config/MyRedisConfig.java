@@ -19,6 +19,7 @@ import java.time.Duration;
 import java.util.Arrays;
 
 @Configuration
+//可以使用继承CachingConfigurerSupport的方式重写对应的方法
 public class MyRedisConfig {
 
     Logger logger = LoggerFactory.getLogger(getClass());
